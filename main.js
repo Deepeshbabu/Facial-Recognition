@@ -13,7 +13,7 @@ function tsn()
 {
     Webcam.snap(function(data_uri) 
     {
-        document.getElementById("result").innerHTML = '<img style="height : 250px; width : 350px;" src="' + data_uri + '">' ;
+        document.getElementById("result").innerHTML = '<img id="img" style="height : 250px; width : 350px;" src="' + data_uri + '">' ;
     });
 }
 
@@ -24,4 +24,24 @@ classifier = ml5.imageClassifier('https://teachablemachine.withgoogle.com/models
 function modelLoaded() 
 {
     console.log("Model Loaded");
+}
+
+function check() 
+{
+    img =  document.getElementById("img") ;
+    classifier.classify(img, gotResult) ;
+}
+
+function gotResult(error, results) 
+{
+    if (error) 
+    {
+        console.error(error);
+    }
+    else 
+    {
+        console.log(results);
+        document.getElementById("objn").innerHTML = results[0].label ;
+        document.getElementById("obja").innerHTML = results[0].confidence.toFixed(3) ;
+    }
 }
